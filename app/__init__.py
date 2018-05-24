@@ -15,5 +15,13 @@ def create_app(environment='development'):
     @app.route('/hello')
     def hello_world():
         return 'Hello, World!'
+    
+    @app.route('/users')
+    def user():
+        return render_template('users.html')
+    
+    @app.route('/expense_claims')
+    def expense_claims():
+        return render_template('expense_claims.html')
 
     return app    
