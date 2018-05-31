@@ -1,13 +1,14 @@
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
-
-#db = SQLAlchemy()
+from sqlalchemy import  create_engine
+from sqlalchemy.orm import sessionmaker
+#from flask_migrate import Migrate
+from os import environ
+from app.environment import create_environment
 
 def create_app(environment='development'):
-    app = Flask(__name__)     
-    app.config.from_pyfile('../settings.py', silent=True)
-    #db.init_app(app)
-    
+    app = Flask(__name__)         
+    create_environment(environment)
+
     @app.route('/')
     def home():
         return render_template('home.html')

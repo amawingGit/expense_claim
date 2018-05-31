@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 BUDGET_CATEGORIES = ['finance', 'engineering', 'channel' ]
 
 class ExpenseClaim(Base):
-    __tablename__ = 'expense_claim'
+    __tablename__ = 'expense_claims'
     id = Column(Integer, primary_key=True)
     vendor_name = Column(String)
     effective_date = Column(Date)
