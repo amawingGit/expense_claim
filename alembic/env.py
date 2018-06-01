@@ -1,8 +1,7 @@
 from __future__ import with_statement
 from alembic import context
-from sqlalchemy import pool, create_engine
+from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
-from os import environ
 
 from app.models import Base
 
@@ -18,7 +17,6 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
@@ -39,8 +37,7 @@ def run_migrations_offline():
     script output.
 
     """
-    #url = config.get_main_option("sqlalchemy.url")
-    url = environ['DB_URL']
+    url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url, target_metadata=target_metadata, literal_binds=True)
 
@@ -55,11 +52,11 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = create_engine(
-        environ['DB_URL'],
-        poolclass=pool.NullPool
-    )
-    print(environ['DB_URL'])
+    connectable = engine_from_config(
+        config.get_section(config.config_ini_section),
+        prefix='sqlalchemy.',
+        poolclass=pool.NullPool)
+
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
