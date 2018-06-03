@@ -12,3 +12,5 @@ class User(Base):
     updated_at = Column(DateTime, default=func.now())
     created_at = Column(DateTime, default=func.now())
  
+    def __repr__(self):
+        return "<User(name='%s', role='%s')>" % (self.name, self.role)

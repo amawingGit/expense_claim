@@ -1,7 +1,8 @@
 from IPython import embed
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func
 import click
 from app.environment import create_environment, db
+from app.seeds import load_seeds
 from os import environ
 from app.models import Base
 
@@ -28,10 +29,19 @@ def drop_all():
 
 @cli.command(help='Run shell.')
 def shell():   
+    from app.models.user import User
+    from app.models.expense_claim import ExpenseClaim
+    # from app.models.expense_department import ExpenseDepartment
+    # from app.models.approval import Approval
+
     session = db.Session()
-    #mixer = FixedMixer(session=session, commit=True) # NOQA
+
 
     embed(banner1='Welcome to the Pricing Service!')
+
+@cli.command(help='Run seeds.')
+def run_seeds(): 
+    load_seeds()
 
 
 if __name__ == '__main__':
